@@ -521,9 +521,9 @@ According to the Run::Env decide what logleves to show in the logger.
 
 When running tests you can skip (or include) particular
 tests depending if run on a developer, a staging or
-production machine.
+a production machine.
 
-If running in teststing mode configuration loading and parsing module
+If running in testing mode configuration loading and parsing module
 can decide to include additional path (ex. ./) to search for a configuration.
 
 =head1 AUTHOR
