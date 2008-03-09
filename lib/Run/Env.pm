@@ -317,7 +317,7 @@ Turn off debug.
 =cut
 
 do {
-	our $execution_mode = set_execution(detect_execution_mode());
+	our $execution_mode = set_execution(detect_execution());
 
 =head3 execution()
 
@@ -387,7 +387,7 @@ Set current execution mode.
 		}
 	}
 
-=head3 detect_execution_mode()
+=head3 detect_execution()
 
 Detect execution mode based on the %ENV variables.
 'mod_perl if C<'$ENV{'MOD_PERL'}> is set. 'cgi' if
@@ -395,7 +395,7 @@ C<$ENV{'REQUEST_METHOD'}> is set. Otherwise 'shell'.
 
 =cut
 	
-	sub detect_execution_mode {
+	sub detect_execution {
 		return 'mod_perl'
 			if exists $ENV{'MOD_PERL'};
 		return 'cgi'
