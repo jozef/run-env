@@ -1,0 +1,16 @@
+---
+name: Run-Env
+version: 0.01
+author:
+  - 'Jozef Kutej <jozef@kutej.net>'
+abstract: running environment detection
+license: perl
+requires:
+  Carp::Clan: 0
+build_requires:
+  Test::More: 0
+provides:
+  Run::Env:
+    file: lib/Run/Env.pm
+    version: 0.01
+generated_by: Module::Build version 0.26

@@ -1,52 +1,165 @@
-Run-Env
+NAME
+    Run::Env - running environment detection
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+SYNOPSIS
+            MyLogger->set_log_level('ERROR')
+                    if Run::Env::production;
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+            my $config = 'config.cfg';
+            $config = 'test-config.cfg'
+                    if Run::Env::testing;
+        
+            print Dumper \$config
+                    if Run::Env::debug;
+        
+            print 'Content-Type: text/html'
+                    if Run::Env::cgi || Run::Env::mod_perl;
 
+DESCRIPTION
+    There can be 3 running environments:
 
-INSTALLATION
+            qw{
+                    development
+                    staging
+                    production
+            }
 
-To install this module, run the following commands:
+    'development' are machines that the developers run. 'staging' is where
+    the code is tested before going to the production. 'production' is the
+    wilde world in production.
 
-	perl Build.PL
-	./Build
-	./Build test
-	./Build install
+    There can be 3 execution modes:
 
-SUPPORT AND DOCUMENTATION
+            qw{
+                    cgi
+                    mod_perl
+                    shell
+            };
 
-After installing, you can find documentation for this module with the
-perldoc command.
+    In all of them we can turn on debugging.
 
-    perldoc Run::Env
+    In all of them we can set testing. That is when the tests are run.
 
-You can also look for information at:
+    Module is using module global variables to store envs and modes so the
+    first time it is initialized/set it will be the same in all other
+    modules that use it as well. Module is also using %ENV variables
+    ('RUN-ENV_*') so that the initialized/set envs and modes are propagated
+    to the shell scripts that can be executed by system() or ``.
 
-    RT, CPAN's request tracker
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Run-Env
+METHODS
+  import()
+    You can pass any running environment or execution environment or
+    'testing' or 'debug' to force them, '-debug', '-testing' to clear them.
 
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Run-Env
+            use Run::Env qw( testing debug );
+            # or
+            use Run::Env 'production';
+            # or
+            use Run::Env '-debug';
 
-    CPAN Ratings
-        http://cpanratings.perl.org/d/Run-Env
+  running environment
+   detect_running_env()
+    Detects in which environment are we running. First checks the
+    $ENV{'RUN-ENV_current'} and then check for a presence of special file in
+    system configuration directories. Currently is lookup for:
 
-    Search CPAN
-        http://search.cpan.org/dist/Run-Env
+            /etc/development-machine
+            /etc/staging-machine
 
+    The default running environment is production.
 
-COPYRIGHT AND LICENCE
+   current()
+    Return current running environment.
 
-Copyright (C) 2008 Jozef Kutej
+   development()
+    Return true/false if curently running in development environment.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+   staging()
+    Return true/false if curently running in staging environment.
+
+   production()
+    Return true/false if curently running in production environment.
+
+   set($running_env)
+    Set one of the 'development', 'staging', 'production' that is passed as
+    argument.
+
+   set_development()
+    Set running environment to development.
+
+   set_staging()
+    Set running environment to staging.
+
+   set_production()
+    Set running environment to production.
+
+  debug mode
+   debug()
+    Return true/false if curently running with debug on.
+
+   set_debug()
+    Turn on debug mode.
+
+    Option is to pass an argument then the debug status is set depending on
+    that argument.
+
+   clear_debug()
+    Turn off debug.
+
+  execution mode
+   execution()
+    Return how the script is executed: cgi || mod_perl || shell.
+
+   cgi()
+    Return true/false if script is executed as cgi.
+
+   mod_perl()
+    Return true/false if script is executed in mod_perl.
+
+   shell()
+    Return true/false if script is executed as schell script.
+
+   set_execution()
+    Set current execution mode.
+
+   detect_execution()
+    Detect execution mode based on the %ENV variables. 'mod_perl if
+    "'$ENV{'MOD_PERL'}" is set. 'cgi' if $ENV{'REQUEST_METHOD'} is set.
+    Otherwise 'shell'.
+
+   set_cgi()
+    Set execution mode to cgi.
+
+   set_mod_perl()
+    Set execution mode to mod_perl.
+
+   set_shell()
+    Set execution mode to shell.
+
+  testing mode
+   testing()
+    Return true/false if script is executed in testing mode.
+
+   detect_testing
+    Try to detect testing mode. Checks for $ENV{'RUN-ENV_testing'} or it the
+    current working folder is 't/'.
+
+   set_testing
+    Turn on testing mode.
+
+   clear_testing
+    Turn off testing mode.
+
+USAGE EXAMPLES
+    According to the Run::Env decide what logleves to show in the logger.
+
+    When running tests you can skip (or include) particular tests depending
+    if run on a developer, a staging or production machine.
+
+    If running in teststing mode configuration loading and parsing module
+    can decide to include additional path (ex. ./) to search for a
+    configuration.
+
+AUTHOR
+    Jozef Kutej
 

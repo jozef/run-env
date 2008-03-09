@@ -1,8 +1,12 @@
 Build.PL
 Changes
-MANIFEST
-README
 lib/Run/Env.pm
-t/00-load.t
+Makefile.PL
+MANIFEST
+META.yml
+README
+t/01_Run-Env.t
+t/02_Running-Environment.t
+t/bin/print-run-env.pl
 t/pod-coverage.t
 t/pod.t

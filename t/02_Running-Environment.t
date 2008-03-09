@@ -52,7 +52,7 @@ sub main {
 	Run::Env::set_debug();
 	diag 'run bin/print-run-env.pl to get Run::Env';
 
-	my $print_run_env = File::Spec->catfile($FindBin::Bin, 'bin', 'print-run-env.pl');
+	my $print_run_env = 'perl '.File::Spec->catfile($FindBin::Bin, 'bin', 'print-run-env.pl');
 	my $output = `$print_run_env`;
 	
 	SKIP: {
