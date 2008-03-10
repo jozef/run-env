@@ -1,5 +1,9 @@
 Revision history for Run-Env
 
-0.01    Date/time
+0.02    2008-03-10
+	* Removed the '-' in EVN variables. Doesn't work good with shell.
+	* dependencies fixed
+
+0.01    2008-03-09
         First version, released on an unsuspecting world.
 

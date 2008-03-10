@@ -85,9 +85,9 @@ sub main {
 }
 
 sub cleanup_env {
-	delete $ENV{'RUN-ENV_current'};
-	delete $ENV{'RUN-ENV_debug'};
-	delete $ENV{'RUN-ENV_testing'};
+	delete $ENV{'RUN_ENV_current'};
+	delete $ENV{'RUN_ENV_debug'};
+	delete $ENV{'RUN_ENV_testing'};
 	delete $ENV{'MOD_PERL'};
 	delete $ENV{'REQUEST_METHOD'};
 }

@@ -48,7 +48,7 @@ In all of them we can set testing. That is when the tests are run.
 
 Module is using module global variables to store envs and modes so the first time
 it is initialized/set it will be the same in all other modules that
-use it as well. Module is also using %ENV variables ('RUN-ENV_*') so that
+use it as well. Module is also using %ENV variables ('RUN_ENV_*') so that
 the initialized/set envs and modes are propagated to the shell scripts
 that can be executed by system() or ``. 
 
@@ -62,7 +62,7 @@ use File::Spec ();
 use FindBin ();
 use List::MoreUtils 'any';
 
-our $VERSION = '0.02';
+our $VERSION = '0.01_01';
 
 
 our @running_envs =	qw{
@@ -128,7 +128,7 @@ do {
 =head3 detect_running_env()
 
 Detects in which environment are we running. First checks the
-C<$ENV{'RUN-ENV_current'}> and then check for a presence of
+C<$ENV{'RUN_ENV_current'}> and then check for a presence of
 special file in system configuration directories. Currently
 is lookup for:
 
@@ -140,8 +140,8 @@ The default running environment is production.
 =cut
 	
 	sub detect_running_env {
-		return $ENV{'RUN-ENV_current'}
-			if $ENV{'RUN-ENV_current'};
+		return $ENV{'RUN_ENV_current'}
+			if $ENV{'RUN_ENV_current'};
 	
 		return 'development'
 			if (-e File::Spec->catfile(@os_conf_location, 'development-machine'));
@@ -255,7 +255,7 @@ Set running environment to production.
 	sub _set {
 		my $set_running_env = shift;
 		$running_env = $set_running_env;
-		$ENV{'RUN-ENV_current'} = $set_running_env; 
+		$ENV{'RUN_ENV_current'} = $set_running_env; 
 	}
 
 };
@@ -265,7 +265,7 @@ Set running environment to production.
 =cut
 
 do {
-	our $debug_mode = set_debug($ENV{'RUN-ENV_debug'});
+	our $debug_mode = set_debug($ENV{'RUN_ENV_debug'});
 
 =head3 debug()
 
@@ -292,7 +292,7 @@ on that argument.
 		
 		$debug_mode = shift;
 		if ($debug_mode) {
-			$ENV{'RUN-ENV_debug'} = $debug_mode;
+			$ENV{'RUN_ENV_debug'} = $debug_mode;
 		}
 		else {
 			clear_debug();
@@ -307,7 +307,7 @@ Turn off debug.
 	
 	sub clear_debug {
 		$debug_mode = 0;
-		delete $ENV{'RUN-ENV_debug'};
+		delete $ENV{'RUN_ENV_debug'};
 	}
 };
 
@@ -460,14 +460,14 @@ Return true/false if script is executed in testing mode.
 
 =head3 detect_testing
 
-Try to detect testing mode. Checks for C<$ENV{'RUN-ENV_testing'}>
+Try to detect testing mode. Checks for C<$ENV{'RUN_ENV_testing'}>
 or it the current working folder is 't/'.
 
 =cut
 	
 	sub detect_testing {
 		return 1
-			if $ENV{'RUN-ENV_testing'};
+			if $ENV{'RUN_ENV_testing'};
 	
 		# testing if current folder is 't'
 		my @current_path = File::Spec->splitdir($FindBin::Bin);
@@ -489,7 +489,7 @@ Turn on testing mode.
 
 		$testing = shift;
 		if ($testing) {
-			$ENV{'RUN-ENV_testing'} = $testing;
+			$ENV{'RUN_ENV_testing'} = $testing;
 		}
 		else {
 			clear_testing();
@@ -504,7 +504,7 @@ Turn off testing mode.
 	
 	sub clear_testing {
 		$testing = 0;
-		delete $ENV{'RUN-ENV_testing'};
+		delete $ENV{'RUN_ENV_testing'};
 	}
 };
 
@@ -525,6 +525,10 @@ a production machine.
 
 If running in testing mode configuration loading and parsing module
 can decide to include additional path (ex. ./) to search for a configuration.
+
+=head1 TODO
+
+	* have status functions also for the interactive io? (chk. IO::Interactive)
 
 =head1 AUTHOR
 

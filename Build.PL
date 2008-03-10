@@ -8,7 +8,11 @@ my $builder = Module::Build->new(
     dist_author         => 'Jozef Kutej <jozef@kutej.net>',
     dist_version_from   => 'lib/Run/Env.pm',
     requires => {
-    	'Carp::Clan' => 0,
+    	'Carp::Clan'      => 0,
+    	'List::MoreUtils' => 0,
+    	'Carp::Clan'      => 0,
+    	'File::Spec'      => 0,
+    	
     },
     build_requires => {
         'Test::More' => 0,
