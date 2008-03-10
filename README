@@ -43,7 +43,7 @@ DESCRIPTION
     Module is using module global variables to store envs and modes so the
     first time it is initialized/set it will be the same in all other
     modules that use it as well. Module is also using %ENV variables
-    ('RUN-ENV_*') so that the initialized/set envs and modes are propagated
+    ('RUN_ENV_*') so that the initialized/set envs and modes are propagated
     to the shell scripts that can be executed by system() or ``.
 
 METHODS
@@ -60,7 +60,7 @@ METHODS
   running environment
    detect_running_env()
     Detects in which environment are we running. First checks the
-    $ENV{'RUN-ENV_current'} and then check for a presence of special file in
+    $ENV{'RUN_ENV_current'} and then check for a presence of special file in
     system configuration directories. Currently is lookup for:
 
             /etc/development-machine
@@ -141,7 +141,7 @@ METHODS
     Return true/false if script is executed in testing mode.
 
    detect_testing
-    Try to detect testing mode. Checks for $ENV{'RUN-ENV_testing'} or it the
+    Try to detect testing mode. Checks for $ENV{'RUN_ENV_testing'} or it the
     current working folder is 't/'.
 
    set_testing
@@ -154,11 +154,14 @@ USAGE EXAMPLES
     According to the Run::Env decide what logleves to show in the logger.
 
     When running tests you can skip (or include) particular tests depending
-    if run on a developer, a staging or production machine.
+    if run on a developer, a staging or a production machine.
 
-    If running in teststing mode configuration loading and parsing module
-    can decide to include additional path (ex. ./) to search for a
+    If running in testing mode configuration loading and parsing module can
+    decide to include additional path (ex. ./) to search for a
     configuration.
+
+TODO
+            * have status functions also for the interactive io? (chk. IO::Interactive)
 
 AUTHOR
     Jozef Kutej

@@ -8,7 +8,9 @@ WriteMakefile
           'VERSION_FROM' => 'lib/Run/Env.pm',
           'PREREQ_PM' => {
                            'Test::More' => 0,
-                           'Carp::Clan' => 0
+                           'File::Spec' => 0,
+                           'Carp::Clan' => 0,
+                           'List::MoreUtils' => 0
                          }
         )
 ;
