@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 #use Test::More 'no_plan';
-use Test::More tests => 26;
+use Test::More tests => 27;
 
 use English '-no_match_vars';
 use FindBin;
@@ -70,6 +70,7 @@ sub main {
 		
 		diag 'cleanup env and run it again';
 		cleanup_env();
+		Run::Env::set_production();
 		
 		$output = `$print_run_env`;
 		$output =~ s/\s*$//;
@@ -79,6 +80,13 @@ sub main {
 		like($output, qr/no-testing/, '... no-testing');
 		like($output, qr/shell/, '... shell script');
 		like($output, qr/no-debug/, '... and no-debug');
+		
+		diag 'cleanup env and run with --debug';
+		cleanup_env();
+		$output = `$print_run_env --debug`;
+		$output =~ s/\s*$//;
+		diag 'output: ', $output;
+		like($output, qr/\sdebug/, 'debug on');
 	}
 	
 	return 0;

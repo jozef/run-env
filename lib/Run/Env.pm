@@ -265,7 +265,7 @@ Set running environment to production.
 =cut
 
 do {
-	our $debug_mode = set_debug($ENV{'RUN_ENV_debug'});
+	our $debug_mode = set_debug(detect_debug());
 
 =head3 debug()
 
@@ -308,6 +308,21 @@ Turn off debug.
 	sub clear_debug {
 		$debug_mode = 0;
 		delete $ENV{'RUN_ENV_debug'};
+	}
+
+=head3 detect_debug()
+
+Detect if debug is on or off.
+
+On if C<$ENV{'RUN_ENV_debug'}> set and true or if any of the
+@ARGV is '--debug'.
+
+=cut
+	
+	sub detect_debug {
+		return 1 if $ENV{'RUN_ENV_debug'};
+		return 1 if any { $_ eq '--debug' } @ARGV;
+		return 0;
 	}
 };
 
@@ -518,6 +533,7 @@ __END__
 =head1 USAGE EXAMPLES
 
 According to the Run::Env decide what logleves to show in the logger.
+Disable debug and info and show only errors.
 
 When running tests you can skip (or include) particular
 tests depending if run on a developer, a staging or
@@ -525,6 +541,8 @@ a production machine.
 
 If running in testing mode configuration loading and parsing module
 can decide to include additional path (ex. ./) to search for a configuration.
+
+Disable access to some special web test sections if running in production. 
 
 =head1 TODO
 

@@ -1,8 +1,9 @@
 Revision history for Run-Env
 
 0.02    2008-03-10
-	* Removed the '-' in EVN variables. Doesn't work good with shell.
+	* Removed the '-' in %ENV variables. Doesn't work good with shell.
 	* dependencies fixed
+	* debug mode if @ARGV nas --debug
 
 0.01    2008-03-09
         First version, released on an unsuspecting world.
