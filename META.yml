@@ -1,6 +1,6 @@
 ---
 name: Run-Env
-version: 0.01_01
+version: 0.01_02
 author:
   - 'Jozef Kutej <jozef@kutej.net>'
 abstract: running environment detection
@@ -14,5 +14,5 @@ build_requires:
 provides:
   Run::Env:
     file: lib/Run/Env.pm
-    version: 0.01_01
+    version: 0.01_02
 generated_by: Module::Build version 0.26

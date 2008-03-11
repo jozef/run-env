@@ -106,6 +106,12 @@ METHODS
    clear_debug()
     Turn off debug.
 
+   detect_debug()
+    Detect if debug is on or off.
+
+    On if $ENV{'RUN_ENV_debug'} set and true or if any of the @ARGV is
+    '--debug'.
+
   execution mode
    execution()
     Return how the script is executed: cgi || mod_perl || shell.
@@ -152,6 +158,7 @@ METHODS
 
 USAGE EXAMPLES
     According to the Run::Env decide what logleves to show in the logger.
+    Disable debug and info and show only errors.
 
     When running tests you can skip (or include) particular tests depending
     if run on a developer, a staging or a production machine.
@@ -159,6 +166,9 @@ USAGE EXAMPLES
     If running in testing mode configuration loading and parsing module can
     decide to include additional path (ex. ./) to search for a
     configuration.
+
+    Disable access to some special web test sections if running in
+    production.
 
 TODO
             * have status functions also for the interactive io? (chk. IO::Interactive)
