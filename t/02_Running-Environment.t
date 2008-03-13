@@ -51,9 +51,9 @@ sub main {
 	Run::Env::set_staging();
 	Run::Env::set_debug();
 	diag 'run bin/print-run-env.pl to get Run::Env';
-
-	my $print_run_env = 'perl '.File::Spec->catfile($FindBin::Bin, 'bin', 'print-run-env.pl');
-	my $output = `$print_run_env`;
+	
+	my $print_run_env = $^X.' '.File::Spec->catfile($FindBin::Bin, 'bin', 'print-run-env.pl');
+	my $output = eval { `$print_run_env` };
 	
 	SKIP: {
 		skip 'failed to execute perl test script, skipping tests', 8
