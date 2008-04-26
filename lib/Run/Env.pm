@@ -62,7 +62,7 @@ use File::Spec ();
 use FindBin ();
 use List::MoreUtils 'any';
 
-our $VERSION = '0.01_03';
+our $VERSION = '0.02';
 
 
 our @running_envs =	qw{

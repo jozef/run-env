@@ -13,44 +13,46 @@ use Config;
 exit main();
 
 sub main {
-	use_ok('Run::Env') or exit;
+	BEGIN {
+		use_ok('Run::Env') or exit;
+	}
 	
-	ok(!Run::Env::debug(),  'we should not be in debug mode');
-	ok(Run::Env::testing(), 'we should be in testing mode');
-	ok(Run::Env::shell(), 'running from shell');
+	ok(!Run::Env::debug,  'we should not be in debug mode');
+	ok(Run::Env::testing, 'we should be in testing mode');
+	ok(Run::Env::shell, 'running from shell');
 
 	diag 'check import()';	
 	use_ok('Run::Env', qw( -testing debug production ));
 
-	ok(Run::Env::debug(),        'now debug on');
-	ok(!Run::Env::testing(),     'testing off');
-	ok(Run::Env::production(),   'production environment');
-	ok(!Run::Env::staging(),     'no staging environment');
-	ok(!Run::Env::development(), 'no development environment');
+	ok(Run::Env::debug,        'now debug on');
+	ok(!Run::Env::testing,     'testing off');
+	ok(Run::Env::production,   'production environment');
+	ok(!Run::Env::staging,     'no staging environment');
+	ok(!Run::Env::development, 'no development environment');
 
 	use_ok('Run::Env', qw( development ));
 	
-	ok(Run::Env::debug(),      'now debug on');
-	ok(!Run::Env::testing(),   'testing off');
-	ok(Run::Env::development(), 'development environment');
+	ok(Run::Env::debug,      'now debug on');
+	ok(!Run::Env::testing,   'testing off');
+	ok(Run::Env::development, 'development environment');
 
 	use_ok('Run::Env', qw( staging ));
 	
-	ok(Run::Env::staging(),      'no staging environment');
+	ok(Run::Env::staging,      'no staging environment');
 
 
 	diag 'execution tests';
 	cleanup_env();
 	$ENV{'MOD_PERL'} = 1;
-	is(Run::Env::detect_execution(), 'mod_perl', 'running under "mod_perl"');
+	is(Run::Env::detect_execution, 'mod_perl', 'running under "mod_perl"');
 
 	cleanup_env();
 	$ENV{'REQUEST_METHOD'} = 1;
-	is(Run::Env::detect_execution(), 'cgi', 'running under as "cgi"');
+	is(Run::Env::detect_execution, 'cgi', 'running under as "cgi"');
 	
 	cleanup_env();
-	Run::Env::set_staging();
-	Run::Env::set_debug();
+	Run::Env::set_staging;
+	Run::Env::set_debug;
 	diag 'run bin/print-run-env.pl to get Run::Env';
 	
 	# copy&paste from perlvar
@@ -78,7 +80,7 @@ sub main {
 		
 		diag 'cleanup env and run it again';
 		cleanup_env();
-		Run::Env::set_production();
+		Run::Env::set_production;
 		
 		$output = `$print_run_env`;
 		$output =~ s/\s*$//;
