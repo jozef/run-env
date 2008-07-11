@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 #use Test::More 'no_plan';
-use Test::More tests => 27;
+use Test::More tests => 30;
 
 use English '-no_match_vars';
 use FindBin;
@@ -27,18 +27,21 @@ sub main {
 	ok(Run::Env::debug,        'now debug on');
 	ok(!Run::Env::testing,     'testing off');
 	ok(Run::Env::production,   'production environment');
+	ok(Run::Env::prod,         'prod environment');
 	ok(!Run::Env::staging,     'no staging environment');
 	ok(!Run::Env::development, 'no development environment');
 
 	use_ok('Run::Env', qw( development ));
 	
-	ok(Run::Env::debug,      'now debug on');
-	ok(!Run::Env::testing,   'testing off');
-	ok(Run::Env::development, 'development environment');
+	ok(Run::Env::debug,        'now debug on');
+	ok(!Run::Env::testing,     'testing off');
+	ok(Run::Env::development,  'development environment');
+	ok(Run::Env::dev, 'dev environment');
 
 	use_ok('Run::Env', qw( staging ));
 	
-	ok(Run::Env::staging,      'no staging environment');
+	ok(Run::Env::staging,      'now staging environment');
+	ok(Run::Env::stg,          'now staging environment');
 
 
 	diag 'execution tests';

@@ -1,5 +1,8 @@
 Revision history for Run-Env
 
+0.03    2008-06-30
+    * short names (prod, stg, dev) added
+
 0.02    2008-03-10
 	* Removed the '-' in %ENV variables. Doesn't work good with shell.
 	* dependencies fixed

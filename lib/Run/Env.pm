@@ -21,6 +21,10 @@ Run::Env - running environment detection
 
 =head1 DESCRIPTION
 
+Usefull in cases if the program/script should behave in slightly different
+way depending on if it's run on developers machine, staging server or a
+production server.
+
 There can be 3 running environments:
 
 	qw{
@@ -62,7 +66,7 @@ use File::Spec ();
 use FindBin ();
 use List::MoreUtils 'any';
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 our @running_envs =	qw{
@@ -162,15 +166,19 @@ Return current running environment.
 		return $running_env;
 	}
 
+=head3 dev()
+
 =head3 development()
 
 Return true/false if curently running in development environment.
 
 =cut
-	
+	*dev = *development; 
 	sub development {
 		return _decide('development');
 	}
+
+=head3 stg()
 
 =head3 staging()
 
@@ -178,9 +186,12 @@ Return true/false if curently running in staging environment.
 
 =cut
 	
+	*stg = *staging;
 	sub staging {
 		return _decide('staging');
 	}
+
+=head3 prod()
 
 =head3 production()
 
@@ -188,6 +199,7 @@ Return true/false if curently running in production environment.
 
 =cut
 	
+	*prod = *production;
 	sub production {
 		return _decide('production');
 	}
