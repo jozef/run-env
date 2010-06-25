@@ -1,5 +1,8 @@
 Revision history for Run-Env
 
+0.04    2010-06-25
+    * moved Pod to __END__ so that the code is readable
+
 0.03    2008-06-30
     * short names (prod, stg, dev) added
 
