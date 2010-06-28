@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 #use Test::More 'no_plan';
-use Test::More tests => 30;
+use Test::More tests => 38;
 
 use English '-no_match_vars';
 use FindBin;
@@ -28,6 +28,7 @@ sub main {
 	ok(!Run::Env::testing,     'testing off');
 	ok(Run::Env::production,   'production environment');
 	ok(Run::Env::prod,         'prod environment');
+	ok(!Run::Env->uat,         'no uat environment');
 	ok(!Run::Env::staging,     'no staging environment');
 	ok(!Run::Env::development, 'no development environment');
 
@@ -37,6 +38,14 @@ sub main {
 	ok(!Run::Env::testing,     'testing off');
 	ok(Run::Env::development,  'development environment');
 	ok(Run::Env::dev, 'dev environment');
+
+	use_ok('Run::Env', qw( uat ));
+	
+	ok(!Run::Env::production,  'no production environment');
+	ok(!Run::Env::prod,        'no prod environment');
+	ok(Run::Env->uat,          'uat environment');
+	ok(!Run::Env::staging,     'no staging environment');
+	ok(!Run::Env::development, 'no development environment');
 
 	use_ok('Run::Env', qw( staging ));
 	
@@ -69,7 +78,7 @@ sub main {
 	my $output = eval { `$print_run_env` };
 	
 	SKIP: {
-		skip 'failed to execute perl test script, skipping tests', 8
+		skip 'failed to execute perl test script, skipping tests', 10
 			if not $output;
 		
 		$output =~ s/\s*$//;
@@ -80,10 +89,20 @@ sub main {
 		like($output, qr/shell/, '... shell script');
 		like($output, qr/\sdebug/, '... and debug');
 		
-		
+		# set_uat
 		diag 'cleanup env and run it again';
 		cleanup_env();
-		Run::Env::set_production;
+		Run::Env->set_uat;
+		
+		$output = `$print_run_env`;
+		$output =~ s/\s*$//;
+		diag 'output: ', $output;
+		
+		like($output, qr/uat/, 'should be uat now');
+		
+		# production as default
+		diag 'cleanup env and run it again';
+		cleanup_env();
 		
 		$output = `$print_run_env`;
 		$output =~ s/\s*$//;
@@ -94,6 +113,7 @@ sub main {
 		like($output, qr/shell/, '... shell script');
 		like($output, qr/no-debug/, '... and no-debug');
 		
+		# with debug
 		diag 'cleanup env and run with --debug';
 		cleanup_env();
 		$output = `$print_run_env --debug`;

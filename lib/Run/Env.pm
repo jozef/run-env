@@ -8,11 +8,12 @@ use File::Spec ();
 use FindBin ();
 use List::MoreUtils 'any';
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 
 our @running_envs =	qw{
 	development
+	uat
 	staging
 	production
 };
@@ -54,6 +55,8 @@ do {
 	
 		return 'development'
 			if (-e File::Spec->catfile(@os_conf_location, 'development-machine'));
+		return 'uat'
+			if (-e File::Spec->catfile(@os_conf_location, 'uat-machine'));
 		return 'staging'
 			if (-e File::Spec->catfile(@os_conf_location, 'staging-machine'));
 	
@@ -81,6 +84,10 @@ do {
 		return _decide('development');
 	}
 	
+	sub uat {
+		return _decide('uat');
+	}
+	
 	*stg = *staging;
 	sub staging {
 		return _decide('staging');
@@ -97,6 +104,9 @@ do {
 		if ($set_running_env eq 'development') {
 			set_development();
 		}
+		elsif ($set_running_env eq 'uat') {
+			set_uat();
+		}
 		elsif ($set_running_env eq 'staging') {
 			set_staging();
 		}
@@ -110,6 +120,10 @@ do {
 	
 	sub set_development {
 		_set('development');
+	}
+	
+	sub set_uat {
+		_set('uat');
 	}
 	
 	sub set_staging {
@@ -289,19 +303,21 @@ Run::Env - running environment detection
 =head1 DESCRIPTION
 
 Usefull in cases if the program/script should behave in slightly different
-way depending on if it's run on developers machine, staging server or a
-production server.
+way depending on if it's run on developers machine, user acceptance test server,
+staging server or a production server.
 
-There can be 3 running environments:
+There can be 4 running environments:
 
 	qw{
 		development
+        uat
 		staging
 		production
 	}
 
 'development' are machines that the developers run.
-'staging' is where the code is tested before going to the production.
+'uat' is where the code is internally tested.
+'staging' is where the code is tested just before deployment to the production.
 'production' is the wilde world in production.
 
 There can be 3 execution modes:
@@ -329,7 +345,7 @@ According to the Run::Env decide what logleves to show in the logger.
 Disable debug and info and show only errors.
 
 When running tests you can skip (or include) particular
-tests depending if run on a developer, a staging or
+tests depending if run on a developer, an uat, a staging or
 a production machine.
 
 If running in testing mode configuration loading and parsing module
@@ -361,6 +377,7 @@ special file in system configuration directories. Currently
 is lookup for:
 
 	/etc/development-machine
+	/etc/uat-machine
 	/etc/staging-machine
 
 The default running environment is production.
@@ -374,6 +391,10 @@ Return current running environment.
 =head3 development()
 
 Return true/false if curently running in development environment.
+
+=head3 uat()
+
+Return true/false if curently running in uat environment.
 
 =head3 stg()
 
@@ -389,12 +410,16 @@ Return true/false if curently running in production environment.
 
 =head3 set($running_env)
 
-Set one of the 'development', 'staging', 'production'
+Set one of the 'development', 'uat', 'staging', 'production'
 that is passed as argument.
 
 =head3 set_development()
 
 Set running environment to development.
+
+=head3 set_uat()
+
+Set running environment to uat.
 
 =head3 set_staging()
 
@@ -487,9 +512,10 @@ Turn on testing mode.
 
 Turn off testing mode.
 
-=head1 TODO
+=head1 SEE ALSO
 
-	* have status functions also for the interactive io? (chk. IO::Interactive)
+L<http://dltj.org/article/software-development-practice/>,
+L<http://spacebug.com/effective_development_environments/>
 
 =head1 AUTHOR
 

@@ -17,20 +17,22 @@ SYNOPSIS
 
 DESCRIPTION
     Usefull in cases if the program/script should behave in slightly
-    different way depending on if it's run on developers machine, staging
-    server or a production server.
+    different way depending on if it's run on developers machine, user
+    acceptance test server, staging server or a production server.
 
-    There can be 3 running environments:
+    There can be 4 running environments:
 
             qw{
                     development
+            uat
                     staging
                     production
             }
 
-    'development' are machines that the developers run. 'staging' is where
-    the code is tested before going to the production. 'production' is the
-    wilde world in production.
+    'development' are machines that the developers run. 'uat' is where the
+    code is internally tested. 'staging' is where the code is tested just
+    before deployment to the production. 'production' is the wilde world in
+    production.
 
     There can be 3 execution modes:
 
@@ -55,7 +57,7 @@ USAGE EXAMPLES
     Disable debug and info and show only errors.
 
     When running tests you can skip (or include) particular tests depending
-    if run on a developer, a staging or a production machine.
+    if run on a developer, an uat, a staging or a production machine.
 
     If running in testing mode configuration loading and parsing module can
     decide to include additional path (ex. ./) to search for a
@@ -82,6 +84,7 @@ METHODS
     in system configuration directories. Currently is lookup for:
 
             /etc/development-machine
+            /etc/uat-machine
             /etc/staging-machine
 
     The default running environment is production.
@@ -93,6 +96,9 @@ METHODS
     development()
     Return true/false if curently running in development environment.
 
+    uat()
+    Return true/false if curently running in uat environment.
+
     stg()
     staging()
     Return true/false if curently running in staging environment.
@@ -102,11 +108,14 @@ METHODS
     Return true/false if curently running in production environment.
 
     set($running_env)
-    Set one of the 'development', 'staging', 'production' that is passed as
-    argument.
+    Set one of the 'development', 'uat', 'staging', 'production' that is
+    passed as argument.
 
     set_development()
     Set running environment to development.
+
+    set_uat()
+    Set running environment to uat.
 
     set_staging()
     Set running environment to staging.
@@ -177,8 +186,9 @@ METHODS
     clear_testing
     Turn off testing mode.
 
-TODO
-            * have status functions also for the interactive io? (chk. IO::Interactive)
+SEE ALSO
+    http://dltj.org/article/software-development-practice/,
+    http://spacebug.com/effective_development_environments/
 
 AUTHOR
     Jozef Kutej
