@@ -8,7 +8,7 @@ use File::Spec ();
 use FindBin ();
 use List::MoreUtils 'any';
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 
 our @running_envs =	qw{
@@ -520,5 +520,13 @@ L<http://spacebug.com/effective_development_environments/>
 =head1 AUTHOR
 
 Jozef Kutej
+
+=head1 LICENSE AND COPYRIGHT
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
 
 =cut

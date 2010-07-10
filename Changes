@@ -1,5 +1,8 @@
 Revision history for Run-Env
 
+0.06    2010-07-10
+    * has_humanreadable_license
+
 0.05    2010-06-28
     * added uat environment
     * added SEE ALSO
