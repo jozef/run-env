@@ -8,7 +8,7 @@ use File::Spec ();
 use FindBin ();
 use List::MoreUtils 'any';
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 
 our @running_envs =	qw{

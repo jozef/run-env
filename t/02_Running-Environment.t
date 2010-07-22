@@ -108,7 +108,11 @@ sub main {
 		$output =~ s/\s*$//;
 		diag 'output: ', $output;
 		
-		like($output, qr/production/, 'should be production now (default)');
+		SKIP: {
+			skip 'no defaults check if there is /etc/(development|uat|staging)-machine files', 1
+				if ((-f '/etc/development-machine') or (-f '/etc/uat-machine') or (-f '/etc/staging-machine'));
+			like($output, qr/production/, 'should be production now (default)');
+		};
 		like($output, qr/no-testing/, '... no-testing');
 		like($output, qr/shell/, '... shell script');
 		like($output, qr/no-debug/, '... and no-debug');
