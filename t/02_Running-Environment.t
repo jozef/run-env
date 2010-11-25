@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 #use Test::More 'no_plan';
-use Test::More tests => 38;
+use Test::More tests => 40;
 
 use English '-no_match_vars';
 use FindBin;
@@ -126,6 +126,16 @@ sub main {
 		like($output, qr/\sdebug/, 'debug on');
 	}
 	
+
+	# simulate running under mod_perl where $0 is /dev/null
+	do {
+		cleanup_env();
+		ok(Run::Env::detect_testing, 'we should be in testing mode');
+
+		local $0 = '/dev/null';
+		ok(!Run::Env::detect_testing, 'we should not be in testing mode any more when $0 is /dev/null (mod_perl)');
+	};
+
 	return 0;
 }
 

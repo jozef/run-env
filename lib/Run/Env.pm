@@ -5,10 +5,10 @@ use strict;
 
 use Carp::Clan ();
 use File::Spec ();
-use FindBin ();
+use FindBin::Real ();
 use List::MoreUtils 'any';
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 
 our @running_envs =	qw{
@@ -245,7 +245,8 @@ do {
 			if $ENV{'RUN_ENV_testing'};
 	
 		# testing if current folder is 't'
-		my @current_path = File::Spec->splitdir($FindBin::Bin);
+		my @bin = eval { FindBin::Real::Bin() } || File::Spec->rootdir();
+		my @current_path = File::Spec->splitdir(@bin);
 		return 1
 			if (pop @current_path eq 't');
 	

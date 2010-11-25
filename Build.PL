@@ -12,7 +12,7 @@ my $builder = Module::Build->new(
     	'List::MoreUtils' => 0,
     	'Carp::Clan'      => 0,
     	'File::Spec'      => 0,
-    	
+    	'FindBin::Real'   => 0,
     },
     build_requires => {
         'Test::More' => 0,
